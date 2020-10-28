@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <ProjectOptions>
+    <Version Value="11"/>
+    <General>
+      <Flags>
+        <MainUnitHasUsesSectionForAllUnits Value="False"/>
+        <MainUnitHasCreateFormStatements Value="False"/>
+        <MainUnitHasTitleStatement Value="False"/>
+        <MainUnitHasScaledStatement Value="False"/>
+        <LRSInOutputDirectory Value="False"/>
+      </Flags>
+      <MainUnit Value="0"/>
+      <AutoCreateForms Value="False"/>
+      <Title Value="lite8"/>
+      <ResourceType Value="res"/>
+    </General>
+    <i18n>
+      <EnableI18N LFM="False"/>
+    </i18n>
+    <BuildModes Count="1" Active="Default">
+      <Item1 Name="Default" Default="True"/>
+    </BuildModes>
+    <PublishOptions>
+      <Version Value="2"/>
+    </PublishOptions>
+    <RunParams>
+      <FormatVersion Value="2"/>
+      <Modes Count="1">
+        <Mode0 Name="default"/>
+      </Modes>
+    </RunParams>
+    <Units Count="3">
+      <Unit0>
+        <Filename Value="lite8.pas"/>
+        <IsPartOfProject Value="True"/>
+        <IsVisibleTab Value="True"/>
+        <TopLine Value="19"/>
+        <CursorPos X="5" Y="29"/>
+        <UsageCount Value="21"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit0>
+      <Unit1>
+        <Filename Value="../../../allegros/allegro.pas-5.2.b.1-1/src/examples/common.pas"/>
+        <UnitName Value="Common"/>
+        <EditorIndex Value="1"/>
+        <TopLine Value="71"/>
+        <CursorPos X="36" Y="89"/>
+        <UsageCount Value="21"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit1>
+      <Unit2>
+        <Filename Value="../../../../lazarus32/fpc/3.2.0/source/rtl/inc/systemh.inc"/>
+        <EditorIndex Value="2"/>
+        <TopLine Value="736"/>
+        <CursorPos X="3" Y="753"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit2>
+    </Units>
+    <JumpHistory Count="8" HistoryIndex="7">
+      <Position1>
+        <Filename Value="lite8.pas"/>
+        <Caret Line="51" Column="25" TopLine="37"/>
+      </Position1>
+      <Position2>
+        <Filename Value="lite8.pas"/>
+        <Caret Line="192" Column="29" TopLine="173"/>
+      </Position2>
+      <Position3>
+        <Filename Value="lite8.pas"/>
+        <Caret Line="34" Column="5" TopLine="17"/>
+      </Position3>
+      <Position4>
+        <Filename Value="../../../allegros/allegro.pas-5.2.b.1-1/src/examples/common.pas"/>
+        <Caret TopLine="31"/>
+      </Position4>
+      <Position5>
+        <Filename Value="../../../allegros/allegro.pas-5.2.b.1-1/src/examples/common.pas"/>
+        <Caret Line="41" Column="25" TopLine="31"/>
+      </Position5>
+      <Position6>
+        <Filename Value="../../../allegros/allegro.pas-5.2.b.1-1/src/examples/common.pas"/>
+        <Caret Line="75" Column="25" TopLine="71"/>
+      </Position6>
+      <Position7>
+        <Filename Value="lite8.pas"/>
+        <Caret Line="281" Column="28" TopLine="264"/>
+      </Position7>
+      <Position8>
+        <Filename Value="lite8.pas"/>
+        <Caret Line="302" Column="45" TopLine="283"/>
+      </Position8>
+    </JumpHistory>
+  </ProjectOptions>
+  <CompilerOptions>
+    <Version Value="11"/>
+    <Target>
+      <Filename Value="../bin/lite8"/>
+    </Target>
+    <SearchPaths>
+      <IncludeFiles Value="$(ProjOutDir)"/>
+      <OtherUnitFiles Value="../../../allegros/allegro.pas-5.2.b.1-1/src/lib"/>
+      <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
+    </SearchPaths>
+    <Parsing>
+      <SyntaxOptions>
+        <SyntaxMode Value="Delphi"/>
+        <CStyleOperator Value="False"/>
+        <AllowLabel Value="False"/>
+      </SyntaxOptions>
+    </Parsing>
+    <CodeGeneration>
+      <SmartLinkUnit Value="True"/>
+      <Optimizations>
+        <OptimizationLevel Value="3"/>
+      </Optimizations>
+    </CodeGeneration>
+    <Linking>
+      <Debugging>
+        <GenerateDebugInfo Value="False"/>
+        <StripSymbols Value="True"/>
+      </Debugging>
+      <LinkSmart Value="True"/>
+      <Options>
+        <Win32>
+          <GraphicApplication Value="True"/>
+        </Win32>
+      </Options>
+    </Linking>
+    <Other>
+      <Verbosity>
+        <ShowHints Value="False"/>
+      </Verbosity>
+    </Other>
+  </CompilerOptions>
+  <Debugging>
+    <Exceptions Count="3">
+      <Item1>
+        <Name Value="EAbort"/>
+      </Item1>
+      <Item2>
+        <Name Value="ECodetoolError"/>
+      </Item2>
+      <Item3>
+        <Name Value="EFOpenError"/>
+      </Item3>
+    </Exceptions>
+  </Debugging>
+</CONFIG>
