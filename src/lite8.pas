@@ -42,7 +42,7 @@ VAR
   Font: ALLEGRO_FONTptr;
   EventQueue: ALLEGRO_EVENT_QUEUEptr;
   Background, TextClr, Black, Red: ALLEGRO_COLOR;
-  Timer, Counter: ARRAY [1..4] OF DOUBLE;
+  Timer, Counter: DOUBLE;
   TextX, TextY: SINGLE;
 
 
@@ -112,25 +112,25 @@ ex_blit.pas(67,5) Note: Local variable "Lock" is assigned but never used
 
 
 
-  PROCEDURE StartTimer (Ndx: INTEGER);
+  PROCEDURE StartTimer ();
   BEGIN
-    Timer[Ndx] := Timer[Ndx] - al_get_time;
-    Counter[Ndx] := Counter[Ndx] + 1;
+    Timer := Timer - al_get_time;
+    Counter := Counter + 1;
   END;
 
 
 
-  PROCEDURE StopTimer (Ndx: INTEGER);
+  PROCEDURE StopTimer ();
   BEGIN
-    Timer[Ndx] := Timer[Ndx] + al_get_time;
+    Timer := Timer + al_get_time;
   END;
 
 
 
-  FUNCTION GetFPS  (Ndx: INTEGER): SINGLE;
+  FUNCTION GetFPS  (): SINGLE;
   BEGIN
-    IF Timer[Ndx] = 0 THEN EXIT (0.0);
-    GetFPS := Counter[Ndx] / Timer[Ndx];
+    IF Timer = 0 THEN EXIT (0.0);
+    GetFPS := Counter / Timer;
   END;
 
 
@@ -151,88 +151,26 @@ ex_blit.pas(67,5) Note: Local variable "Lock" is assigned but never used
 
     SetXY (8, 8);
 
-  { Test 1. }
-  { /* Disabled: drawing to same bitmap is not supported. }
-  (*
-    Print ('Screen -> Screen (%.1f fps)', get_fps(0));
-    get_xy(&x, &y);
-    al_draw_bitmap(ex.Pattern, x, y, 0);
-
-    start_timer(0);
-    al_draw_bitmap_region(screen, x, y, iw, ih, x + 8 + iw, y, 0);
-    stop_timer(0);
-    SetXY (x, y + ih);
-   *)
-
   { Test 2. }
-    Print ('Screen -> Bitmap -> Screen (%.1f fps)', [GetFPS (1)]);
+    Print ('Screen -> Bitmap -> Screen (%.1f fps)', [GetFPS()]);
     GetXY (x, y);
     al_draw_bitmap (Pattern, x, y, 0);
 
+    // al_set_new_bitmap_flags (ALLEGRO_MEMORY_BITMAP);
+    // al_set_new_bitmap_flags (ALLEGRO_VIDEO_BITMAP);
     Temp := al_create_bitmap (iw, ih);
     al_set_target_bitmap (Temp);
     al_clear_to_color (Red);
-    StartTimer (1);
+    StartTimer();
     al_draw_bitmap_region (Screen, x, y, iw, ih, 0, 0, 0);
 
     al_set_target_bitmap (Screen);
     al_draw_bitmap (Temp, x + 8 + iw, y, 0);
-    StopTimer (1);
+    StopTimer();
     SetXY (x, y + ih);
 
     al_destroy_bitmap (Temp);
 
-  { Test 3. }
-    Print ('Screen -> Memory -> Screen (%.1f fps)', [getfps (2)]);
-    GetXY (x, y);
-    al_draw_bitmap (Pattern, x, y, 0);
-
-    al_set_new_bitmap_flags (ALLEGRO_MEMORY_BITMAP);
-    Temp := al_create_bitmap (iw, ih);
-    al_set_target_bitmap (Temp);
-    al_clear_to_color (Red);
-    StartTimer (2);
-    al_draw_bitmap_region (Screen, x, y, iw, ih, 0, 0, 0);
-
-    al_set_target_bitmap (Screen);
-    al_draw_bitmap (Temp, x + 8 + iw, y, 0);
-    StopTimer (2);
-    SetXY (x, y + ih);
-
-    al_destroy_bitmap (Temp);
-    al_set_new_bitmap_flags (ALLEGRO_VIDEO_BITMAP);
-
-
-(*
-  Disabled because the "memcpy".  I tried it but I never used 'memcpy' on C nor
-  pointers on Pascal so I don't know how to translate it.
-
-   /* Test 4. */
-    Print ('Screen -> Locked -> Screen (%.1f fps)', get_fps(3));
-    get_xy(&x, &y);
-    al_draw_bitmap(ex.Pattern, x, y, 0);
-
-    StartTimer (3);
-    lock = al_lock_bitmap_region(Screen, x, y, iw, ih,
-      ALLEGRO_PIXEL_FORMAT_ANY, ALLEGRO_LOCK_READONLY);
-    format = lock->format;
-    size = lock->pixel_size;
-    data = malloc(size * iw * ih);
-    for (i = 0; i < ih; i++)
-       memcpy((char* )data + i * size * iw,
-         (char* )lock->data + i * lock->pitch, size * iw);
-    al_unlock_bitmap(Screen);
-
-   lock = al_lock_bitmap_region(Screen, x + 8 + iw, y, iw, ih, format,
-      ALLEGRO_LOCK_WRITEONLY);
-   for (i = 0; i < ih; i++)
-      memcpy((char* )lock->data + i * lock->pitch,
-         (char* )data + i * size * iw, size * iw);
-   al_unlock_bitmap(Screen);
-   free(data);
-   StopTimer (3);
-    SetXY (x, y + ih);
- *)
   END;
 
 
