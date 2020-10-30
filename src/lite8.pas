@@ -52,7 +52,7 @@ VAR
     i, j: INTEGER;
     mx, my, a, d, sat, hue: SINGLE;
     State: ALLEGRO_STATE;
-    Lock: ALLEGRO_LOCKED_REGIONptr;
+    //Lock: ALLEGRO_LOCKED_REGIONptr;
     Pattern: ALLEGRO_BITMAPptr;
   BEGIN
     mx := w * 0.5;
@@ -63,7 +63,8 @@ VAR
 { Ignore message:
 ex_blit.pas(67,5) Note: Local variable "Lock" is assigned but never used
   It is initialized at "Init". }
-    Lock := al_lock_bitmap (Pattern, ALLEGRO_PIXEL_FORMAT_ANY, ALLEGRO_LOCK_WRITEONLY);
+  //Lock := al_lock_bitmap (Pattern, ALLEGRO_PIXEL_FORMAT_ANY, ALLEGRO_LOCK_WRITEONLY);
+  al_lock_bitmap (Pattern, ALLEGRO_PIXEL_FORMAT_ANY, ALLEGRO_LOCK_WRITEONLY);
     FOR i := 0 TO w - 1 DO
     BEGIN
       FOR j := 0 TO h - 1 DO
