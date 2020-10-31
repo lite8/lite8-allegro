@@ -47,6 +47,24 @@ VAR
   TextX, TextY: SINGLE;
   TheTimer1s: ALLEGRO_TIMERptr;
 
+  // API
+  var
+    KEYS_DOWN: array[0..ALLEGRO_KEY_MAX] of boolean;
+
+  function btn(b:byte):boolean;
+  begin
+    result := KEYS_DOWN[b];
+  end;
+
+  // THE GAME CODE
+  var
+    x,y: integer;
+  procedure _init();
+  begin
+    x:=64;
+    y:=64;
+  end;
+
 
 
   FUNCTION ExampleBitmap (CONST w, h: INTEGER): ALLEGRO_BITMAPptr;
@@ -137,6 +155,24 @@ ex_blit.pas(67,5) Note: Local variable "Lock" is assigned but never used
   END;
 
 
+  procedure cls();
+  begin
+    al_clear_to_color (Background);
+  end;
+
+  procedure _update();
+  begin
+    if btn(ALLEGRO_KEY_LEFT) then X := X - 1;
+    if btn(ALLEGRO_KEY_RIGHT) then X := X + 1;
+    if btn(ALLEGRO_KEY_UP) then Y := Y - 1;
+    if btn(ALLEGRO_KEY_DOWN) then Y := Y + 1;
+  end;
+
+  procedure _draw();
+  begin
+    cls();
+    al_put_pixel (x, y, Red);
+  end;
 
   PROCEDURE Draw;
   VAR
@@ -174,10 +210,14 @@ StartTimer();
   al_draw_bitmap_region (Pattern, 120,120,iw, ih, 10, 10, 0);
      //al_draw_scaled_bitmap(Pattern,0,0,iw,ih,0,0,64,64,0);
 
+   _draw();
 
     al_set_target_bitmap (Screen);
 //    al_draw_bitmap (Temp, x + 8 + iw, y, 0);
     al_draw_scaled_bitmap(temp,0,0,iw,ih,0,0,384,384,0);
+
+
+
     StopTimer();
     //SetXY (x, y + ih);
     Print ('Bitmap -> Screen (%.1f fps) @%2d ^%d', [GetFPS(), Tics, LastTick]);
@@ -191,6 +231,7 @@ StartTimer();
   PROCEDURE Tick;
   BEGIN
     Tics := Tics + 1;
+    _update();
     Draw;
     al_flip_display;
   END;
@@ -215,8 +256,16 @@ StartTimer();
         ALLEGRO_EVENT_DISPLAY_CLOSE:
           EXIT;
         ALLEGRO_EVENT_KEY_DOWN:
-          IF Event.keyboard.keycode = ALLEGRO_KEY_ESCAPE THEN
-            EXIT;
+          begin
+            IF Event.keyboard.keycode = ALLEGRO_KEY_ESCAPE THEN
+              EXIT;
+            KEYS_DOWN[Event.keyboard.keycode] := true;
+
+          end;
+        ALLEGRO_EVENT_KEY_UP:
+          begin
+            KEYS_DOWN[Event.keyboard.keycode] := False;
+          end;
         ALLEGRO_EVENT_TIMER:
         begin
           if Event.timer.source = TheTimer1s then
@@ -228,6 +277,7 @@ StartTimer();
              NeedDraw := TRUE;
         end;
       END;
+      //_update()
     UNTIL FALSE;
   END;
 
@@ -245,6 +295,7 @@ StartTimer();
     Pattern := ExampleBitmap (128, 128);
     Tics := 0;
     LastTick := 0;
+    _init();
   END;
 
 
