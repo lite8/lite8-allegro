@@ -43,7 +43,9 @@ VAR
   EventQueue: ALLEGRO_EVENT_QUEUEptr;
   Background, TextClr, Black, Red: ALLEGRO_COLOR;
   Timer, Counter: DOUBLE;
+  Tics,LastTick : longint;
   TextX, TextY: SINGLE;
+  TheTimer1s: ALLEGRO_TIMERptr;
 
 
 
@@ -77,7 +79,7 @@ ex_blit.pas(67,5) Note: Local variable "Lock" is assigned but never used
 	al_put_pixel (i, j, al_color_hsv (hue, sat, 1));
       END;
     END;
-    al_put_pixel (0, 0, Black);
+    //al_put_pixel (0, 0, Black);
     al_unlock_bitmap (Pattern);
     al_restore_state (State);
     ExampleBitmap := Pattern;
@@ -147,28 +149,38 @@ ex_blit.pas(67,5) Note: Local variable "Lock" is assigned but never used
     iw := al_get_bitmap_width (Pattern);
     ih := al_get_bitmap_height (Pattern);
     al_set_blender (ALLEGRO_ADD, ALLEGRO_ONE, ALLEGRO_ZERO);
+    // CLS()
     al_clear_to_color (Background);
     Screen := al_get_target_bitmap;
 
     SetXY (8, 8);
 
   { Test 2. }
-    Print ('Screen -> Bitmap -> Screen (%.1f fps)', [GetFPS()]);
-    GetXY (x, y);
-    al_draw_bitmap (Pattern, x, y, 0);
+    //Print ('Screen -> Bitmap -> Screen (%.1f fps) @%d', [GetFPS(), Tics]);
+    //GetXY (x, y);
+    //al_draw_bitmap (Pattern, x, y, 0);
 
     // al_set_new_bitmap_flags (ALLEGRO_MEMORY_BITMAP);
     // al_set_new_bitmap_flags (ALLEGRO_VIDEO_BITMAP);
     Temp := al_create_bitmap (iw, ih);
+StartTimer();
+//      Temp := ExampleBitmap (iw, ih);
+
     al_set_target_bitmap (Temp);
-    al_clear_to_color (Red);
-    StartTimer();
-    al_draw_bitmap_region (Screen, x, y, iw, ih, 0, 0, 0);
+//   al_clear_to_color (Red);
+  //  al_draw_bitmap_region (Screen, x, y, iw, ih, 0, 0, 0);
+  al_draw_bitmap_region (Pattern, 0,0,iw, ih, 0, 0, 0);
+  al_draw_bitmap_region (Pattern, -60,-60,iw, ih, 0, 0, 0);
+  al_draw_bitmap_region (Pattern, 120,120,iw, ih, 10, 10, 0);
+     //al_draw_scaled_bitmap(Pattern,0,0,iw,ih,0,0,64,64,0);
+
 
     al_set_target_bitmap (Screen);
-    al_draw_bitmap (Temp, x + 8 + iw, y, 0);
+//    al_draw_bitmap (Temp, x + 8 + iw, y, 0);
+    al_draw_scaled_bitmap(temp,0,0,iw,ih,0,0,384,384,0);
     StopTimer();
-    SetXY (x, y + ih);
+    //SetXY (x, y + ih);
+    Print ('Bitmap -> Screen (%.1f fps) @%2d ^%d', [GetFPS(), Tics, LastTick]);
 
     al_destroy_bitmap (Temp);
 
@@ -178,6 +190,7 @@ ex_blit.pas(67,5) Note: Local variable "Lock" is assigned but never used
 
   PROCEDURE Tick;
   BEGIN
+    Tics := Tics + 1;
     Draw;
     al_flip_display;
   END;
@@ -205,7 +218,15 @@ ex_blit.pas(67,5) Note: Local variable "Lock" is assigned but never used
           IF Event.keyboard.keycode = ALLEGRO_KEY_ESCAPE THEN
             EXIT;
         ALLEGRO_EVENT_TIMER:
-          NeedDraw := TRUE;
+        begin
+          if Event.timer.source = TheTimer1s then
+          begin
+            LastTick := Tics;
+            Tics := 0;
+          end
+          else
+             NeedDraw := TRUE;
+        end;
       END;
     UNTIL FALSE;
   END;
@@ -221,7 +242,9 @@ ex_blit.pas(67,5) Note: Local variable "Lock" is assigned but never used
     TextClr := al_color_name ('black');
     Black := al_color_name ('black');
     Red := al_map_rgba_f (1, 0, 0, 1);
-    Pattern := ExampleBitmap (100, 100);
+    Pattern := ExampleBitmap (128, 128);
+    Tics := 0;
+    LastTick := 0;
   END;
 
 
@@ -229,6 +252,7 @@ ex_blit.pas(67,5) Note: Local variable "Lock" is assigned but never used
 VAR
   Display: ALLEGRO_DISPLAYptr;
   TheTimer: ALLEGRO_TIMERptr;
+
 BEGIN
   IF NOT al_init THEN  WriteLn (ErrOutput, 'Could not init Allegro.');
 
@@ -236,19 +260,21 @@ BEGIN
   al_init_image_addon;
   al_init_font_addon;
 
-  Display := al_create_display (640, 480);
+  Display := al_create_display (384, 384);
   IF Display = NIL THEN WriteLn (ErrOutput, 'Could not create display');
 
   Init;
 
   TheTimer := al_create_timer (1 / FPS);
+  TheTimer1s := al_create_timer (1);
 
   EventQueue := al_create_event_queue;
   al_register_event_source (EventQueue, al_get_keyboard_event_source);
   al_register_event_source (EventQueue, al_get_display_event_source (Display));
   al_register_event_source (EventQueue, al_get_timer_event_source (TheTimer));
-
+  al_register_event_source (EventQueue, al_get_timer_event_source (TheTimer1s));
   al_start_timer (TheTimer);
+  al_start_timer (TheTimer1s);
   Run;
 
   al_destroy_event_queue (EventQueue);
