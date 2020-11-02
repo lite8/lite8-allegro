@@ -35,10 +35,10 @@ USES
   math;
 
 CONST
-  FPS = 60;
+  FPS = 30;
 
 VAR
-  Pattern: ALLEGRO_BITMAPptr;
+  FontBitmap, Pattern: ALLEGRO_BITMAPptr;
   Font: ALLEGRO_FONTptr;
   EventQueue: ALLEGRO_EVENT_QUEUEptr;
   Background, TextClr, Black, Red: ALLEGRO_COLOR;
@@ -148,7 +148,7 @@ ex_blit.pas(67,5) Note: Local variable "Lock" is assigned but never used
 
 
 
-  FUNCTION GetFPS  (): SINGLE;
+  FUNCTION GetFPS  (inbitmap:boolean=false): SINGLE;
   BEGIN
     IF Timer = 0 THEN EXIT (0.0);
     GetFPS := Counter / Timer;
@@ -162,15 +162,18 @@ ex_blit.pas(67,5) Note: Local variable "Lock" is assigned but never used
 
   procedure _update();
   begin
-    if btn(ALLEGRO_KEY_LEFT) then X := X - 1;
-    if btn(ALLEGRO_KEY_RIGHT) then X := X + 1;
+    //if btn(ALLEGRO_KEY_LEFT) then X := X - 1;
+    //if btn(ALLEGRO_KEY_RIGHT) then X := X + 1;
+    if btn(ALLEGRO_KEY_LEFT) then X -= 1;
+    if btn(ALLEGRO_KEY_RIGHT) then X += 1;
+
     if btn(ALLEGRO_KEY_UP) then Y := Y - 1;
     if btn(ALLEGRO_KEY_DOWN) then Y := Y + 1;
   end;
 
   procedure _draw();
   begin
-    cls();
+    //cls();
     al_put_pixel (x, y, Red);
   end;
 
@@ -211,6 +214,7 @@ StartTimer();
      //al_draw_scaled_bitmap(Pattern,0,0,iw,ih,0,0,64,64,0);
 
    _draw();
+       Print ('Bitmap @%2d ^%d', [ Tics, LastTick]);
 
     al_set_target_bitmap (Screen);
 //    al_draw_bitmap (Temp, x + 8 + iw, y, 0);
@@ -284,10 +288,15 @@ StartTimer();
 
 
   PROCEDURE Init;
+  var
+    Ranges: ARRAY [0..1] OF LONGINT = (32,126);
   BEGIN
-    Font := al_load_font ('data/fixed_font.tga', 0, 0);
-    IF Font = NIL THEN
-       WriteLn (ErrOutput, 'data/fixed_font.tga not found');
+    //Font := al_load_font ('data/fixed_font.tga', 0, 0);
+    //IF Font = NIL THEN
+       //WriteLn (ErrOutput, 'data/fixed_font.tga not found');
+    FontBitmap := al_load_bitmap ('data/font-3x5.png');
+    IF FontBitmap = NIL THEN WriteLn (ErrOutput, 'Failed to load font-3x5.png.');
+    Font := al_grab_font_from_bitmap (FontBitmap, 1, Ranges);
     Background := al_color_name ('beige');
     TextClr := al_color_name ('black');
     Black := al_color_name ('black');
@@ -298,7 +307,7 @@ StartTimer();
     _init();
   END;
 
-
+// further read: https://lawrencebarsanti.wordpress.com/2009/11/28/introduction-to-pascal-script/
 
 VAR
   Display: ALLEGRO_DISPLAYptr;
