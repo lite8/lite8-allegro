@@ -1,0 +1,30 @@
+lite8 https://github.com/lite8
+ver. 0.1
+
+__script__
+.pas
+
+var
+  x,y: integer;
+procedure _init();
+begin
+  x:=64;
+  y:=64;
+end; 
+
+procedure _draw();
+begin
+  //cls();
+  al_put_pixel (x, y, Red);
+end; 
+
+__palette__
+0|ff8800
+a|aabbcc
+f|0088ff
+
+__sprite__
+0123456789...128
+
+__map__
+0123456789...256

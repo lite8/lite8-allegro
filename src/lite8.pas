@@ -32,7 +32,7 @@ PROGRAM lite8;
 
 USES
   Allegro5, al5base, al5color, al5font, al5image, al5strings,
-  math;
+  math, pas_loader;
 
 CONST
   FPS = 30;
@@ -312,8 +312,13 @@ StartTimer();
 VAR
   Display: ALLEGRO_DISPLAYptr;
   TheTimer: ALLEGRO_TIMERptr;
-
+  pas : string;
 BEGIN
+  Writeln('halo bah');
+  Writeln(ErrOutput, 'halo bah2');
+  pas := load( 'proto1.lite.txt');
+  write(pas);
+
   IF NOT al_init THEN  WriteLn (ErrOutput, 'Could not init Allegro.');
 
   al_install_keyboard;
