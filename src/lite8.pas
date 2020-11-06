@@ -32,7 +32,7 @@ PROGRAM lite8;
 
 USES
   Allegro5, al5base, al5color, al5font, al5image, al5strings,
-  math, api, pas_loader;
+  math, api, api_helper, pas_loader;
 
 CONST
   FPS = 30;
@@ -69,8 +69,8 @@ procedure _update();
  begin
    //if btn(ALLEGRO_KEY_LEFT) then X := X - 1;
    //if btn(ALLEGRO_KEY_RIGHT) then X := X + 1;
-   if btn(0) then X -= 1;
-   if btn(1) then X += 1;
+   if btnp(0) then X -= 1;
+   if btnp(1) then X += 1;
 
    if btn(2) then Y := Y - 1;
    if btn(3) then Y := Y + 1;
@@ -238,6 +238,9 @@ StartTimer();
   PROCEDURE Tick;
   BEGIN
     Tics := Tics + 1;
+    PRIOR_KBDSTATE := CURRENT_KBDSTATE;      //save old
+    al_get_keyboard_state(CURRENT_KBDSTATE); //get new
+
     _update();
     Draw;
     al_flip_display;
