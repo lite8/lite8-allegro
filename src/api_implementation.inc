@@ -1,5 +1,5 @@
 USES
-  Allegro5, al5base, api_helper;
+  Allegro5, al5base, api_helper,al5font;
 
 {$mode delphi}
 
@@ -13,6 +13,7 @@ begin
     1 : kbd := ALLEGRO_KEY_RIGHT;
     2 : kbd := ALLEGRO_KEY_UP;
     3 : kbd := ALLEGRO_KEY_DOWN;
+    else kbd := -1;
   end;
   // Check keyboard input
   //al_get_keyboard_state(keyState);
@@ -41,6 +42,32 @@ procedure pset(x,y, color:byte);
 begin
   al_put_pixel (x, y, COLORS[color]);
 end;
+
+procedure print(txt:string; x,y: integer; color:byte);
+var
+    th: INTEGER;
+begin
+  TextX := x;
+  TextY := y;
+  CURRENT_COLOR := color;
+  th := al_get_font_line_height (Font);
+  al_set_blender (ALLEGRO_ADD, ALLEGRO_ONE, ALLEGRO_INVERSE_ALPHA);
+  al_draw_text (Font, COLORS[color], TextX, TextY, 0, txt);
+  TextY := TextY + th;
+  //writeln('mem:',mem[0],', ',mem[1]);
+end;
+
+procedure print(txt:string; x,y: integer); //overload;
+begin
+  print(txt, x, Y, CURRENT_COLOR)
+end;
+
+procedure print(txt:string); //overload;
+begin
+  print(txt, TextX, TextY, CURRENT_COLOR)
+end;
+
+
 
 procedure cls(color:byte);
 begin

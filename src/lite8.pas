@@ -39,12 +39,12 @@ CONST
 
 VAR
   FontBitmap, Pattern: ALLEGRO_BITMAPptr;
-  Font: ALLEGRO_FONTptr;
+  //Font: ALLEGRO_FONTptr;
   EventQueue: ALLEGRO_EVENT_QUEUEptr;
   Background, TextClr, Black, Red: ALLEGRO_COLOR;
   Timer, Counter: DOUBLE;
   Tics,LastTick : longint;
-  TextX, TextY: SINGLE;
+  //TextX, TextY: SINGLE;
   TheTimer1s: ALLEGRO_TIMERptr;
 
   // API
@@ -80,7 +80,8 @@ procedure _update();
  begin
    //cls();
    //al_put_pixel (x, y, Red);
-   pset(x,y,1)
+   print('w',x,y);
+   pset(x,y,1);
  end;
 
 
@@ -123,31 +124,31 @@ ex_blit.pas(67,5) Note: Local variable "Lock" is assigned but never used
 
 
 
-  PROCEDURE SetXY (CONST x, y: SINGLE);
-  BEGIN
-    TextX := x;
-    TextY := y;
-  END;
+  //PROCEDURE SetXY (CONST x, y: SINGLE);
+  //BEGIN
+  //  TextX := x;
+  //  TextY := y;
+  //END;
 
 
 
-  PROCEDURE GetXY (OUT x, y: SINGLE);
-  BEGIN
-    x := TextX;
-    y := TextY;
-  END;
+  //PROCEDURE GetXY (OUT x, y: SINGLE);
+  //BEGIN
+  //  x := TextX;
+  //  y := TextY;
+  //END;
 
 
 
-  PROCEDURE Print (CONST Fmt: AL_STR; CONST Args: ARRAY OF CONST);
-  VAR
-    th: INTEGER;
-  BEGIN
-    th := al_get_font_line_height (Font);
-    al_set_blender (ALLEGRO_ADD, ALLEGRO_ONE, ALLEGRO_INVERSE_ALPHA);
-    al_draw_text (Font, TextClr, TextX, TextY, 0, al_str_format (Fmt, Args));
-    TextY := TextY + th;
-  END;
+  //PROCEDURE Print (CONST Fmt: AL_STR; CONST Args: ARRAY OF CONST);
+  //VAR
+  //  th: INTEGER;
+  //BEGIN
+  //  th := al_get_font_line_height (Font);
+  //  al_set_blender (ALLEGRO_ADD, ALLEGRO_ONE, ALLEGRO_INVERSE_ALPHA);
+  //  al_draw_text (Font, TextClr, TextX, TextY, 0, al_str_format (Fmt, Args));
+  //  TextY := TextY + th;
+  //END;
 
 
 
@@ -195,7 +196,7 @@ ex_blit.pas(67,5) Note: Local variable "Lock" is assigned but never used
     al_clear_to_color (Background);
     Screen := al_get_target_bitmap;
 
-    SetXY (8, 8);
+    //SetXY (8, 8);
 
   { Test 2. }
     //Print ('Screen -> Bitmap -> Screen (%.1f fps) @%d', [GetFPS(), Tics]);
@@ -217,7 +218,8 @@ StartTimer();
      //al_draw_scaled_bitmap(Pattern,0,0,iw,ih,0,0,64,64,0);
 
    _draw();
-       Print ('Bitmap @%2d ^%d', [ Tics, LastTick]);
+       //Print ('Bitmap @%2d ^%d', [ Tics, LastTick]);
+   Print ('Bitmap',0,0);
 
     al_set_target_bitmap (Screen);
 //    al_draw_bitmap (Temp, x + 8 + iw, y, 0);
@@ -227,7 +229,7 @@ StartTimer();
 
     StopTimer();
     //SetXY (x, y + ih);
-    Print ('Bitmap -> Screen (%.1f fps) @%2d ^%d', [GetFPS(), Tics, LastTick]);
+    //Print ('Bitmap -> Screen (%.1f fps) @%2d ^%d', [GetFPS(), Tics, LastTick]);
 
     al_destroy_bitmap (Temp);
 
