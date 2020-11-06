@@ -32,7 +32,7 @@ PROGRAM lite8;
 
 USES
   Allegro5, al5base, al5color, al5font, al5image, al5strings,
-  math, pas_loader;
+  math, api, pas_loader;
 
 CONST
   FPS = 30;
@@ -48,13 +48,13 @@ VAR
   TheTimer1s: ALLEGRO_TIMERptr;
 
   // API
-  var
-    KEYS_DOWN: array[0..ALLEGRO_KEY_MAX] of boolean;
+  //var
+    //KEYS_DOWN: array[0..ALLEGRO_KEY_MAX] of boolean;
 
-  function btn(b:byte):boolean;
-  begin
-    result := KEYS_DOWN[b];
-  end;
+  //function btn(b:byte):boolean;
+  //begin
+  //  result := KEYS_DOWN[b];
+  //end;
 
   // THE GAME CODE
   var
@@ -64,6 +64,24 @@ VAR
     x:=64;
     y:=64;
   end;
+
+procedure _update();
+ begin
+   //if btn(ALLEGRO_KEY_LEFT) then X := X - 1;
+   //if btn(ALLEGRO_KEY_RIGHT) then X := X + 1;
+   if btn(0) then X -= 1;
+   if btn(1) then X += 1;
+
+   if btn(2) then Y := Y - 1;
+   if btn(3) then Y := Y + 1;
+ end;
+
+ procedure _draw();
+ begin
+   //cls();
+   //al_put_pixel (x, y, Red);
+   pset(x,y,1)
+ end;
 
 
 
@@ -155,27 +173,12 @@ ex_blit.pas(67,5) Note: Local variable "Lock" is assigned but never used
   END;
 
 
-  procedure cls();
-  begin
-    al_clear_to_color (Background);
-  end;
+  //procedure cls();
+  //begin
+  //  al_clear_to_color (Background);
+  //end;
 
-  procedure _update();
-  begin
-    //if btn(ALLEGRO_KEY_LEFT) then X := X - 1;
-    //if btn(ALLEGRO_KEY_RIGHT) then X := X + 1;
-    if btn(ALLEGRO_KEY_LEFT) then X -= 1;
-    if btn(ALLEGRO_KEY_RIGHT) then X += 1;
 
-    if btn(ALLEGRO_KEY_UP) then Y := Y - 1;
-    if btn(ALLEGRO_KEY_DOWN) then Y := Y + 1;
-  end;
-
-  procedure _draw();
-  begin
-    //cls();
-    al_put_pixel (x, y, Red);
-  end;
 
   PROCEDURE Draw;
   VAR
@@ -263,13 +266,13 @@ StartTimer();
           begin
             IF Event.keyboard.keycode = ALLEGRO_KEY_ESCAPE THEN
               EXIT;
-            KEYS_DOWN[Event.keyboard.keycode] := true;
+            //KEYS_DOWN[Event.keyboard.keycode] := true;
 
           end;
-        ALLEGRO_EVENT_KEY_UP:
-          begin
-            KEYS_DOWN[Event.keyboard.keycode] := False;
-          end;
+        //ALLEGRO_EVENT_KEY_UP:
+          //begin
+            //KEYS_DOWN[Event.keyboard.keycode] := False;
+          //end;
         ALLEGRO_EVENT_TIMER:
         begin
           if Event.timer.source = TheTimer1s then

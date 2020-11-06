@@ -12,6 +12,17 @@ begin
   y:=64;
 end; 
 
+procedure _update();
+begin
+    //if btn(ALLEGRO_KEY_LEFT) then X := X - 1;
+    //if btn(ALLEGRO_KEY_RIGHT) then X := X + 1;
+    if btn(ALLEGRO_KEY_LEFT) then X -= 1;
+    if btn(ALLEGRO_KEY_RIGHT) then X += 1;
+
+    if btn(ALLEGRO_KEY_UP) then Y := Y - 1;
+    if btn(ALLEGRO_KEY_DOWN) then Y := Y + 1;
+end;  
+  
 procedure _draw();
 begin
   //cls();
