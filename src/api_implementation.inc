@@ -1,4 +1,5 @@
 USES
+  SysUtils {format string},
   Allegro5, al5base, api_helper,al5font;
 
 {$mode delphi}
@@ -68,6 +69,26 @@ begin
 end;
 
 
+procedure spr(n,x,y: byte);  // n = 16
+var e,j,xs,ys,c : byte;
+    AC: single;
+begin
+  xs := n mod 16;
+  ys := n div 16;
+  for j := 0 to 7 do
+  begin
+    for e:= 0 to 7 do
+    begin
+      c := mem[(xs* 16*8) + e + (ys*16*8*8) + (j*16*8)];
+      pset(x+e,y+j, c);
+      //write(c,' ');
+      //write(format('%-2.2f, %-2.2f, %-2.2f, %-2.2f', [colors[c].r, colors[c].g, colors[c].b, colors[c].a]),' ')
+    end;
+    //writeln;
+  end;
+  //writeln;
+
+end;
 
 procedure cls(color:byte);
 begin

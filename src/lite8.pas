@@ -63,6 +63,7 @@ VAR
   begin
     x:=64;
     y:=64;
+    //spr(0,x,y);
   end;
 
 procedure _update();
@@ -80,8 +81,9 @@ procedure _update();
  begin
    //cls();
    //al_put_pixel (x, y, Red);
-   print('w',x,y);
-   pset(x,y,1);
+   //print('w',x,y);
+   spr(0,x,y);
+   //pset(x,y,10);
  end;
 
 
@@ -191,7 +193,7 @@ ex_blit.pas(67,5) Note: Local variable "Lock" is assigned but never used
   BEGIN
     iw := al_get_bitmap_width (Pattern);
     ih := al_get_bitmap_height (Pattern);
-    al_set_blender (ALLEGRO_ADD, ALLEGRO_ONE, ALLEGRO_ZERO);
+//    al_set_blender (ALLEGRO_ADD, ALLEGRO_ONE, ALLEGRO_ZERO);
     // CLS()
     al_clear_to_color (Background);
     Screen := al_get_target_bitmap;
@@ -210,16 +212,19 @@ StartTimer();
 //      Temp := ExampleBitmap (iw, ih);
 
     al_set_target_bitmap (Temp);
-//   al_clear_to_color (Red);
+     al_lock_bitmap (Temp, ALLEGRO_PIXEL_FORMAT_ANY, ALLEGRO_LOCK_WRITEONLY);
+
+   //al_clear_to_color (Red);
   //  al_draw_bitmap_region (Screen, x, y, iw, ih, 0, 0, 0);
-  al_draw_bitmap_region (Pattern, 0,0,iw, ih, 0, 0, 0);
-  al_draw_bitmap_region (Pattern, -60,-60,iw, ih, 0, 0, 0);
-  al_draw_bitmap_region (Pattern, 120,120,iw, ih, 10, 10, 0);
+//al_draw_bitmap_region (Pattern, 0,0,iw, ih, 0, 0, 0);
+//al_draw_bitmap_region (Pattern, -60,-60,iw, ih, 0, 0, 0);
+//al_draw_bitmap_region (Pattern, 120,120,iw, ih, 10, 10, 0);
      //al_draw_scaled_bitmap(Pattern,0,0,iw,ih,0,0,64,64,0);
 
    _draw();
        //Print ('Bitmap @%2d ^%d', [ Tics, LastTick]);
-   Print ('Bitmap',0,0);
+//   Print ('Bitmap',0,0);
+al_unlock_bitmap (Temp);
 
     al_set_target_bitmap (Screen);
 //    al_draw_bitmap (Temp, x + 8 + iw, y, 0);
@@ -230,6 +235,7 @@ StartTimer();
     StopTimer();
     //SetXY (x, y + ih);
     //Print ('Bitmap -> Screen (%.1f fps) @%2d ^%d', [GetFPS(), Tics, LastTick]);
+    Print(al_str_format('Bitmap -> Screen (%.1f fps) @%2d ^%d', [GetFPS(), Tics, LastTick]), 10, 10, 1);
 
     al_destroy_bitmap (Temp);
 
@@ -337,6 +343,8 @@ BEGIN
   IF Display = NIL THEN WriteLn (ErrOutput, 'Could not create display');
 
   Init;
+
+  reset_();
 
   TheTimer := al_create_timer (1 / FPS);
   TheTimer1s := al_create_timer (1);
