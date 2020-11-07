@@ -3,6 +3,7 @@ ver. 0.1
 
 __script__
 .pas
+program Foo;
 
 var
   x,y: integer;
@@ -14,20 +15,41 @@ end;
 
 procedure _update();
 begin
-    //if btn(ALLEGRO_KEY_LEFT) then X := X - 1;
-    //if btn(ALLEGRO_KEY_RIGHT) then X := X + 1;
-    if btn(ALLEGRO_KEY_LEFT) then X -= 1;
-    if btn(ALLEGRO_KEY_RIGHT) then X += 1;
+    if btn(0) then X := X - 1;
+    if btn(1) then X := X + 1;
 
-    if btn(ALLEGRO_KEY_UP) then Y := Y - 1;
-    if btn(ALLEGRO_KEY_DOWN) then Y := Y + 1;
+    if btn(2) then Y := Y - 1;
+    if btn(3) then Y := Y + 1;
+	
+	
+    { if btn(10) then dec(Y,5);	//pgup }
+    { if btn(11) then inc(Y,5); }
+	
+    if btn(12) then dec(Y);	
+    if btn(13) then inc(Y);
 end;  
   
 procedure _draw();
 begin
-  //cls();
-  al_put_pixel (x, y, Red);
+  cls(1);
+  //al_put_pixel (x, y, Red);
+  pset(x,y,9); 
+  { print('halo'); }
+  { print('world',30,8); }
+  //-1
+  print(
+	'yolayhey',-1); print('fooh!');
+  //0
+  print     (  ' hey');
+  //a
+  print('yeah!',30,64, 11);
+  //b
+  print('halo');
+  //c
 end; 
+
+begin
+end.
 
 __palette__
 0|ff8800

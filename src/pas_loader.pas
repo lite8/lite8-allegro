@@ -26,6 +26,8 @@ begin
      begin
          if copy(t[i],1,10) = '__script__' then
             inside_pas  := true
+         else if copy(t[i],1,4) = '.pas' then
+            continue
          else if inside_pas and (copy(t[i],1,2) = '__') then
             inside_pas := false
          else if inside_pas then

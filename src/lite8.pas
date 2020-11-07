@@ -1,9 +1,17 @@
 PROGRAM lite8;
 (*
- * An example demonstrating different blending modes.
+ * An example demonstration of fantasy-console
+ * in lazarus/freepascal + allegro5.pas
+ * by x2nie
  *)
+
 (*
-  Copyright (c) 2012-2020 Guillermo Martínez J.
+ * Inspired/Originally from ex_blit Lazarus/Delphi program
+ * by Guillermo Martínez J.
+ * https://sourceforge.net/projects/allegro-pas
+ *)
+
+(*
 
   This software is provided 'as-is', without any express or implied
   warranty. In no event will the authors be held liable for any damages
@@ -32,10 +40,10 @@ PROGRAM lite8;
 
 USES
   Allegro5, al5base, al5color, al5font, al5image, al5strings,
-  math, api, api_helper, pas_loader;
+  math, api, api_helper, pas_loader, ps;
 
 CONST
-  FPS = 30;
+  FPS = 60;
 
 VAR
   FontBitmap, Pattern: ALLEGRO_BITMAPptr;
@@ -46,6 +54,8 @@ VAR
   Tics,LastTick : longint;
   //TextX, TextY: SINGLE;
   TheTimer1s: ALLEGRO_TIMERptr;
+
+  _init, _update, _draw : TProc;
 
   // API
   //var
@@ -59,30 +69,30 @@ VAR
   // THE GAME CODE
   var
     x,y: integer;
-  procedure _init();
+  procedure __init();
   begin
     x:=64;
     y:=64;
     //spr(0,x,y);
   end;
 
-procedure _update();
+procedure __update();
  begin
    //if btn(ALLEGRO_KEY_LEFT) then X := X - 1;
    //if btn(ALLEGRO_KEY_RIGHT) then X := X + 1;
-   if btnp(0) then X -= 1;
-   if btnp(1) then X += 1;
-
-   if btn(2) then Y := Y - 1;
-   if btn(3) then Y := Y + 1;
+   //if btnp(0) then X -= 1;
+   //if btnp(1) then X += 1;
+   //
+   //if btn(2) then Y := Y - 1;
+   //if btn(3) then Y := Y + 1;
  end;
 
- procedure _draw();
+ procedure __draw();
  begin
    //cls();
    //al_put_pixel (x, y, Red);
    //print('w',x,y);
-   spr(0,x,y);
+   //spr(0,x,y);
    //pset(x,y,10);
  end;
 
@@ -169,7 +179,7 @@ ex_blit.pas(67,5) Note: Local variable "Lock" is assigned but never used
 
 
 
-  FUNCTION GetFPS  (inbitmap:boolean=false): SINGLE;
+  FUNCTION GetFPS  (): SINGLE;
   BEGIN
     IF Timer = 0 THEN EXIT (0.0);
     GetFPS := Counter / Timer;
@@ -185,12 +195,13 @@ ex_blit.pas(67,5) Note: Local variable "Lock" is assigned but never used
 
   PROCEDURE Draw;
   VAR
-    x, y: SINGLE;
+    x, y,fps: SINGLE;
     iw, ih {, FormatLock }: INTEGER;
     Screen, Temp: ALLEGRO_BITMAPptr;
     {  Lock: ALLEGRO_LOCKED_REGIONptr;
     Data: POINTER; }
   BEGIN
+    fps := GetFPS();
     iw := al_get_bitmap_width (Pattern);
     ih := al_get_bitmap_height (Pattern);
 //    al_set_blender (ALLEGRO_ADD, ALLEGRO_ONE, ALLEGRO_ZERO);
@@ -212,7 +223,7 @@ StartTimer();
 //      Temp := ExampleBitmap (iw, ih);
 
     al_set_target_bitmap (Temp);
-     al_lock_bitmap (Temp, ALLEGRO_PIXEL_FORMAT_ANY, ALLEGRO_LOCK_WRITEONLY);
+     //al_lock_bitmap (Temp, ALLEGRO_PIXEL_FORMAT_ANY, ALLEGRO_LOCK_WRITEONLY);
 
    //al_clear_to_color (Red);
   //  al_draw_bitmap_region (Screen, x, y, iw, ih, 0, 0, 0);
@@ -221,10 +232,17 @@ StartTimer();
 //al_draw_bitmap_region (Pattern, 120,120,iw, ih, 10, 10, 0);
      //al_draw_scaled_bitmap(Pattern,0,0,iw,ih,0,0,64,64,0);
 
-   _draw();
+
+
+     if assigned(_draw) then
+        _draw()
+     //else __draw()
+     else printxyc('no _draw()!',16,16,5)
+         ;
        //Print ('Bitmap @%2d ^%d', [ Tics, LastTick]);
 //   Print ('Bitmap',0,0);
-al_unlock_bitmap (Temp);
+//al_unlock_bitmap (Temp);
+Printxyc(al_str_format('(%.1f fps) @%2d ^%d', [fps, Tics, LastTick]), 1, 10, 3);
 
     al_set_target_bitmap (Screen);
 //    al_draw_bitmap (Temp, x + 8 + iw, y, 0);
@@ -235,7 +253,7 @@ al_unlock_bitmap (Temp);
     StopTimer();
     //SetXY (x, y + ih);
     //Print ('Bitmap -> Screen (%.1f fps) @%2d ^%d', [GetFPS(), Tics, LastTick]);
-    Print(al_str_format('Bitmap -> Screen (%.1f fps) @%2d ^%d', [GetFPS(), Tics, LastTick]), 10, 10, 1);
+    //Print(al_str_format('Bitmap -> Screen (%.1f fps) @%2d ^%d', [GetFPS(), Tics, LastTick]), 10, 10, 1);
 
     al_destroy_bitmap (Temp);
 
@@ -249,7 +267,10 @@ al_unlock_bitmap (Temp);
     PRIOR_KBDSTATE := CURRENT_KBDSTATE;      //save old
     al_get_keyboard_state(CURRENT_KBDSTATE); //get new
 
-    _update();
+    if assigned(_update) then
+       _update()
+    //else   __update()
+    ;
     Draw;
     al_flip_display;
   END;
@@ -318,7 +339,9 @@ al_unlock_bitmap (Temp);
     Pattern := ExampleBitmap (128, 128);
     Tics := 0;
     LastTick := 0;
-    _init();
+    if assigned(_init) then
+       _init()
+    //else  __init()
   END;
 
 // further read: https://lawrencebarsanti.wordpress.com/2009/11/28/introduction-to-pascal-script/
@@ -326,12 +349,15 @@ al_unlock_bitmap (Temp);
 VAR
   Display: ALLEGRO_DISPLAYptr;
   TheTimer: ALLEGRO_TIMERptr;
-  pas : string;
+  script : string;
+  pas : TPS;
 BEGIN
   Writeln('halo bah');
   Writeln(ErrOutput, 'halo bah2');
-  pas := load( 'proto1.lite.txt');
-  write(pas);
+  script := load( 'proto1.lite.txt');
+  writeln('---------');
+  write(script);
+
 
   IF NOT al_init THEN  WriteLn (ErrOutput, 'Could not init Allegro.');
 
@@ -342,9 +368,20 @@ BEGIN
   Display := al_create_display (384, 384);
   IF Display = NIL THEN WriteLn (ErrOutput, 'Could not create display');
 
+  //Init;
+
+  reset_(); //api helper
+
+  //ps script
+  pas := TPS.create(script);
+  IF NOT pas.Init THEN  WriteLn (ErrOutput, 'Could not init Pascal Script!');
+
+  IF NOT pas.GetProc('_init', _init) THEN  WriteLn (ErrOutput, 'Could not found "_init" func.');
+  IF NOT pas.GetProc('_update', _update) THEN  WriteLn (ErrOutput, 'Could not found "_update" func.');
+  IF NOT pas.GetProc('_draw', _draw) THEN  WriteLn (ErrOutput, 'Could not found "_draw" func.');
+
   Init;
 
-  reset_();
 
   TheTimer := al_create_timer (1 / FPS);
   TheTimer1s := al_create_timer (1);
