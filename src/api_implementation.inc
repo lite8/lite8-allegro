@@ -52,13 +52,13 @@ begin
   al_put_pixel (x, y, COLORS[color]);
 end;
 
-procedure print__4(txt:string; x,y: integer; color:byte);
+procedure printxyc(txt:string; x,y: integer; color:byte);
 begin
   CURRENT_COLOR := color;
-  print__3(txt,x,y);
+  printxy(txt,x,y);
 end;
 
-procedure print__3(txt:string; x,y: integer); //overload;
+procedure printxy(txt:string; x,y: integer); //overload;
 begin
   TextX := x;
   TextY := y;

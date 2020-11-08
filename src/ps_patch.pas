@@ -20,6 +20,12 @@ function patch(ps:TPSScript; complain:TPSPascalCompilerMessage):boolean;
 
 implementation
 
+uses
+  uPSRuntime;
+
+type
+  TPSExecHack = class(TPSExec);//to access protected method
+
 const
   artinya : array[TPSPasToken] of string = (
     'EOF',
@@ -128,17 +134,25 @@ function patch(ps:TPSScript; complain:TPSPascalCompilerMessage):boolean;
 (* return true if patching success: replaced `print('h')` with `print_1('h')`
  *
  *)
-type MyToken = record id: TPSPasToken; str: string; col: integer; end;
+//type
+//  TProc = procedure of object;
+//var
+//  Exec: TProc;
+//  m : TMethod;
+type
+  MyToken = record id: TPSPasToken; str: string; col: integer; end;
 var
+  regproc: TPSExternalProcRec;
   token  : MyTOken;
   tokens : array of MyToken;
   parser : TPSPascalParser;
-  s : string;
+  s, new_name : string;
   row,i,tk : integer;
   stack,comma,params: integer;
-  patched : boolean;
+  patched, invalid : boolean;
 begin
   patched := false;
+  invalid := false;
   writeln('##############################');
   writeln('!!', complain.Pos,' ', complain.Row, ' ', complain.Col);
   row := complain.row-1;              //tstringlist|.row starts from 1
@@ -182,9 +196,27 @@ begin
                           begin
                             writeln('========= we found:', token.str);
                             writeln('========= param count:', params);
+                            // test if new name is valid:
+                            new_name := format('%s__%d',[token.str, params]);
+                            //m := ps.GetProcMethod(new_name);
+                            //writeLn('proc M:', m.Data <> nil);
+                            //Exec := TProc(m);
+                            //if not assigned(exec) then
+                            //if m.Data = nil then
+                            //if ps.Comp.FindProc(new_name) = InvalidVal then
+                            //if ps.Exec.GetProc(new_name) = InvalidVal then
+                            regproc:= TPSExternalProcRec.Create(nil);
+                            if not TPSExecHack(ps.Exec).ImportProc(new_name, regproc) then
+                            begin
+                              invalid := true;
+                              writeLn('invalid proc to patch:',new_name);
+                              regproc.Free;
+                              break;
+                            end;
+                            regproc.Free;
                             // patching:
                             delete(s, token.col, length(token.str));
-                            insert(format('%s__%d',[token.str, params]), s, token.col);
+                            insert(new_name, s, token.col);
                             ps.Script[row] := s;
                             patched := true;
                           end;
@@ -205,7 +237,7 @@ begin
       s := ps.Script[row];
 
 
-  until patched;
+  until patched or invalid;
 
   result := patched;
 end;

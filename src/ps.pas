@@ -161,8 +161,8 @@ begin
   //  Sender.AddFunction(@print, 'procedure print(txt:string); overload;');
 
    Sender.AddFunction(@print, 'procedure print(txt:string);');
-   Sender.AddFunction(@print__3, 'procedure print__3(txt:string; x,y: integer);');
-   Sender.AddFunction(@print__4, 'procedure print__4(txt:string; x,y: integer; color:byte);');
+   Sender.AddFunction(@printxy, 'procedure print__3(txt:string; x,y: integer);');
+   Sender.AddFunction(@printxyc, 'procedure print__4(txt:string; x,y: integer; color:byte);');
 end;
 
 constructor TPS.Create(s: string);
