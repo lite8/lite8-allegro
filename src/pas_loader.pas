@@ -14,30 +14,57 @@ function load(name:string):string;
 
 implementation
 
+uses api_helper;
+
 function load(name:string):string;
-var t,s : TStringList;
-  i : integer;
-  inside_pas : boolean = false;
+type TMode = (script,sprite,none);
+var 
+   mode : TMode;
+   t,d : TStringList;
+   i,y,x : integer;
+   n : byte;
+   s : string;
+   // in_script : boolean = false;
+   // in_sprite : boolean = false;
 begin
-     t := TStringList.Create;
-     s := TStringList.Create;
-     t.LoadFromFile(name);
-     for i := 0 to Pred(t.Count-1) do
-     begin
-         if copy(t[i],1,10) = '__script__' then
-            inside_pas  := true
-         else if copy(t[i],1,4) = '.pas' then
-            continue
-         else if inside_pas and (copy(t[i],1,2) = '__') then
-            inside_pas := false
-         else if inside_pas then
+   t := TStringList.Create;
+   d := TStringList.Create;
+   t.LoadFromFile(name);
+   y := 0;
+   for i := 0 to Pred(t.Count-1) do
+   begin
+      if copy(t[i],1,10) = '__script__' then
+         mode  := script
+      else if copy(t[i],1,10) = '__sprite__' then
+         mode := sprite
+      else if (copy(t[i],1,2) = '__') then
+         mode := none
+      else if copy(t[i],1,4) = '.pas' then
+         continue
+      else 
+         if mode = script then
          begin
-            s.add(t[i])
+            d.add(t[i])
+         end
+         else if mode = sprite then
+         begin
+            s := t[i];
+            writeLn('$|','s');
+            for x := 1 to Length(s) do
+            begin
+               n := StrToInt('$'+s[x]);
+               write(IntToHex(n,1));
+               mem[y*8*16+ (x-1)] := n;
+               // al_put_blended_pixel(x-1, y, COLORS[n]);
+               // al_put_pixel (x-1, y, COLORS[n]);
+            end;
+            inc(y);
          end;
-     end;
-     t.free;
-     result := s.Text;
-     s.free;
+
+   end;
+   t.free;
+   result := d.Text;
+   d.free;
 end;
 
 end.

@@ -32,7 +32,7 @@ end;
 procedure _draw();
 begin
   cls(1);
-  color(7);
+//   color(7);
   //al_put_pixel (x, y, Red);
   pset(x,y,9); 
   print('halo');

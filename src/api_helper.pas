@@ -61,7 +61,7 @@ var c : integer;
 begin
   //TextX:=0;
   //TextY:=0;
-  fillchar(mem,sizeof(mem),0);                  //set block as all zero
+  //fillchar(mem,sizeof(mem),0);                  //set block as all zero
   COLORS[0] := al_map_rgba( 0, 0, 0, 0 ); //al_color_name ('black');
   COLORS[1] := al_map_rgb( 29, 43, 83 );
   COLORS[2] := al_map_rgb( 126, 37, 83 );
@@ -103,7 +103,7 @@ end;
 
 initialization
   //reset_();
-
+  fillchar(mem,sizeof(mem),0);                  //set block as all zero
 
 end.
 
