@@ -68,17 +68,17 @@ VAR
   //end;
 
   // THE GAME CODE
-  var
-    x,y: integer;
-  procedure __init();
-  begin
-    x:=64;
-    y:=64;
-    //spr(0,x,y);
-  end;
+  //var
+  //  x,y: integer;
+  //procedure __init();
+  //begin
+  //  x:=64;
+  //  y:=64;
+  //  //spr(0,x,y);
+  //end;
 
-procedure __update();
- begin
+//procedure __update();
+// begin
    //if btn(ALLEGRO_KEY_LEFT) then X := X - 1;
    //if btn(ALLEGRO_KEY_RIGHT) then X := X + 1;
    //if btnp(0) then X -= 1;
@@ -86,16 +86,16 @@ procedure __update();
    //
    //if btn(2) then Y := Y - 1;
    //if btn(3) then Y := Y + 1;
- end;
+ //end;
 
- procedure __draw();
- begin
+ //procedure __draw();
+ //begin
    //cls();
    //al_put_pixel (x, y, Red);
    //print('w',x,y);
    //spr(0,x,y);
    //pset(x,y,10);
- end;
+ //end;
 
 
 
@@ -243,7 +243,7 @@ StartTimer();
      //else __draw()
      else printxyc('no _draw()!',16,16,5)
          ;
-     al_draw_bitmap (SpritesheetBmp, 0, 0, 0);
+     //al_draw_bitmap (SpritesheetBmp, 0, 0, 0);
        //Print ('Bitmap @%2d ^%d', [ Tics, LastTick]);
        //   Print ('Bitmap',0,0);
 //al_unlock_bitmap (Temp);
