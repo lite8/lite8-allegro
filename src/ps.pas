@@ -35,125 +35,13 @@ implementation
 uses
   uPSUtils,ps_patch, api;
 
-procedure learning_errorcode(s:string);
-const artinya : array[TPSPasToken] of string = (
-    'EOF',
-
-    'Comment',
-    'WhiteSpace',
-
-    'Identifier',
-    'SemiColon',
-    'Comma',
-    'Period',
-    'Colon',
-    'OpenRound',
-    'CloseRound',
-    'OpenBlock',
-    'CloseBlock',
-    'Assignment',
-    'Equal',
-    'NotEqual',
-    'Greater',
-    'GreaterEqual',
-    'Less',
-    'LessEqual',
-    'Plus',
-    'Minus',
-    'Divide',
-    'Multiply',
-    'Integer',
-    'Real',
-    'String',
-    'Char',
-    'HexInt',
-    'AddressOf',
-    'Dereference',
-    'TwoDots',
-
-    'and',
-    'array',
-    'begin',
-    'case',
-    'const',
-    'div',
-    'do',
-    'downto',
-    'else',
-    'end',
-    'for',
-    'function',
-    'if',
-    'in',
-    'mod',
-    'not',
-    'of',
-    'or',
-    'procedure',
-    'program',
-    'repeat',
-    'record',
-    'set',
-    'shl',
-    'shr',
-    'then',
-    'to',
-    'type',
-    'until',
-    'uses',
-    'var',
-    'while',
-    'with',
-    'xor',
-    'exit',
-    'class',
-    'constructor',
-    'destructor',
-    'inherited',
-    'private',
-    'public',
-    'published',
-    'protected',
-    'property',
-    'virtual',
-    'override',
-    //'default', //Birb
-    'As',
-    'Is',
-    'Unit',
-    'Try',
-    'Except',
-    'Finally',
-    'External',
-    'Forward',
-    'Export',
-    'Label',
-    'Goto',
-    'Chr',
-    'Ord',
-    'Interface',
-    'Implementation',
-    'initialization',            //* Nvds
-    'finalization',              //* Nvds
-    'out',
-    'nil'
-    );
-var parser : TPSPascalParser;
-begin
-  Parser := TPSPascalParser.Create;
-  Parser.SetText(s);
-  while parser.CurrTokenID <> CSTI_EOF do
-  begin
-     writeln('@',parser.Col,' "',parser.OriginalToken,'"  `',parser.GetToken, '`   ===> ',artinya[parser.CurrTokenID]);
-    Parser.next();
-  end;
-end;
-
 { TPS }
 
 procedure TPS.OnCompile(Sender: TPSScript);
 begin
-   Sender.AddFunction(@cls,  'procedure cls(color: byte);');
+   Sender.AddFunction(@cls,  'procedure cls();');
+   Sender.AddFunction(@clsc, 'procedure cls__1(color: byte);');
+   Sender.AddFunction(@color, 'procedure color(colour:byte);');
    Sender.AddFunction(@pset, 'procedure pset(x,y, color:byte)');
    Sender.AddFunction(@btn,  'function  btn(keycode:byte):boolean');
   //  Sender.AddFunction(@printxyc, 'procedure print(txt:string; x,y: integer; color:byte); overload;');
@@ -163,6 +51,8 @@ begin
    Sender.AddFunction(@print, 'procedure print(txt:string);');
    Sender.AddFunction(@printxy, 'procedure print__3(txt:string; x,y: integer);');
    Sender.AddFunction(@printxyc, 'procedure print__4(txt:string; x,y: integer; color:byte);');
+
+   Sender.AddFunction(@spr, 'procedure spr(n,x,y: byte);');
 end;
 
 constructor TPS.Create(s: string);

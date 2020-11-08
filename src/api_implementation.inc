@@ -47,9 +47,15 @@ begin
   result := al_key_down(CURRENT_KBDSTATE, kbd) and not al_key_down(PRIOR_KBDSTATE, kbd) ;
 end;
 
+procedure color(colour:byte);
+begin
+  CURRENT_COLOR := colour;
+end;
+
 procedure pset(x,y, color:byte);
 begin
-  al_put_pixel (x, y, COLORS[color]);
+  //al_put_pixel (x, y, COLORS[color]);
+  al_put_blended_pixel(x, y, COLORS[color]);
 end;
 
 procedure printxyc(txt:string; x,y: integer; color:byte);
@@ -75,7 +81,7 @@ begin
   th := al_get_font_line_height (Font);
   al_set_blender (ALLEGRO_ADD, ALLEGRO_ONE, ALLEGRO_INVERSE_ALPHA);
   al_draw_text (Font, COLORS[CURRENT_COLOR], TextX, TextY, 0, txt);
-  TextY := TextY + th;
+  TextY := TextY + th+1;
   //writeln('mem:',mem[0],', ',mem[1]);
 end;
 
@@ -101,11 +107,20 @@ begin
 
 end;
 
-procedure cls(color:byte);
+procedure cls();
 begin
-  al_clear_to_color (COLORS[color]);
+  al_clear_to_color (COLORS[CURRENT_COLOR]);
 end;
 
+procedure clsc(color:byte);
+begin
+  CURRENT_COLOR := color;
+  cls()
+end;
 
+function time();
+begin
+  result := Time_;
+end;
 
 end.

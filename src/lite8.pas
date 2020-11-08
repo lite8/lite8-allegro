@@ -206,7 +206,7 @@ ex_blit.pas(67,5) Note: Local variable "Lock" is assigned but never used
     ih := al_get_bitmap_height (Pattern);
 //    al_set_blender (ALLEGRO_ADD, ALLEGRO_ONE, ALLEGRO_ZERO);
     // CLS()
-    al_clear_to_color (Background);
+    //al_clear_to_color (Background);
     Screen := al_get_target_bitmap;
 
     //SetXY (8, 8);
@@ -223,13 +223,13 @@ StartTimer();
 //      Temp := ExampleBitmap (iw, ih);
 
     al_set_target_bitmap (Temp);
-     //al_lock_bitmap (Temp, ALLEGRO_PIXEL_FORMAT_ANY, ALLEGRO_LOCK_WRITEONLY);
+//al_lock_bitmap (Temp, ALLEGRO_PIXEL_FORMAT_ANY, ALLEGRO_LOCK_WRITEONLY);
 
-   //al_clear_to_color (Red);
-  //  al_draw_bitmap_region (Screen, x, y, iw, ih, 0, 0, 0);
-//al_draw_bitmap_region (Pattern, 0,0,iw, ih, 0, 0, 0);
-//al_draw_bitmap_region (Pattern, -60,-60,iw, ih, 0, 0, 0);
-//al_draw_bitmap_region (Pattern, 120,120,iw, ih, 10, 10, 0);
+    //al_clear_to_color (Red);
+    //  al_draw_bitmap_region (Screen, x, y, iw, ih, 0, 0, 0);
+    //al_draw_bitmap_region (Pattern, 0,0,iw, ih, 0, 0, 0);
+    //al_draw_bitmap_region (Pattern, -60,-60,iw, ih, 0, 0, 0);
+    //al_draw_bitmap_region (Pattern, 120,120,iw, ih, 10, 10, 0);
      //al_draw_scaled_bitmap(Pattern,0,0,iw,ih,0,0,64,64,0);
 
 
@@ -240,12 +240,12 @@ StartTimer();
      else printxyc('no _draw()!',16,16,5)
          ;
        //Print ('Bitmap @%2d ^%d', [ Tics, LastTick]);
-//   Print ('Bitmap',0,0);
+       //   Print ('Bitmap',0,0);
 //al_unlock_bitmap (Temp);
 Printxyc(al_str_format('(%.1f fps) @%2d ^%d', [fps, Tics, LastTick]), 1, 10, 3);
 
     al_set_target_bitmap (Screen);
-//    al_draw_bitmap (Temp, x + 8 + iw, y, 0);
+    //    al_draw_bitmap (Temp, x + 8 + iw, y, 0);
     al_draw_scaled_bitmap(temp,0,0,iw,ih,0,0,384,384,0);
 
 
@@ -262,6 +262,7 @@ Printxyc(al_str_format('(%.1f fps) @%2d ^%d', [fps, Tics, LastTick]), 1, 10, 3);
 
 
   PROCEDURE Tick;
+
   BEGIN
     Tics := Tics + 1;
     PRIOR_KBDSTATE := CURRENT_KBDSTATE;      //save old
@@ -354,7 +355,7 @@ VAR
 BEGIN
   //Writeln('halo bah');
   //Writeln(ErrOutput, 'halo bah2');
-  script := load( 'proto1.lite.txt');
+  script := load( 'proto2.lite.txt');
   writeln('---------');
   writeln(script);
 

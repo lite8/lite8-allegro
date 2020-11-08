@@ -22,6 +22,8 @@ var
    TextY : byte absolute mem[$5f27];
    CURRENT_COLOR: byte absolute mem[$5f25];
 
+   Time_ : double;
+
 // RELATED TO ALLEGRO =====================
 var
   COLORS: array[0..15] of ALLEGRO_COLOR;
@@ -35,6 +37,8 @@ var
 // http://www.gnu-pascal.de/gpc/absolute.html
 
 procedure reset_;
+
+procedure update_time;
 
 implementation
 
@@ -84,6 +88,17 @@ begin
   //demo
   sprite1();
 
+end;
+
+procedure update_time;
+var
+  TS : TTimeStamp;
+  MS : Comp;
+begin
+  //https://www.freepascal.org/docs-html/rtl/sysutils/msecstotimestamp.html
+  TS:=DateTimeToTimeStamp(Now);
+  MS:=TimeStampToMSecs(TS);
+  Time_ := MS / 1000;
 end;
 
 initialization
