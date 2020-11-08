@@ -34,13 +34,13 @@ begin
   cls(1);
   //al_put_pixel (x, y, Red);
   pset(x,y,9); 
-  { print('halo'); }
+  print('halo');
   { print('world',30,8); }
   //-1
-  print(
-	'yolayhey',-1); print('fooh!');
+  print     (  ' hey',8,8);
   //0
-  print     (  ' hey');
+  print(
+	'yolayhey'); print('fooh!');
   //a
   print('yeah!',30,64, 11);
   //b

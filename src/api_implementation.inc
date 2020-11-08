@@ -52,28 +52,31 @@ begin
   al_put_pixel (x, y, COLORS[color]);
 end;
 
-procedure printxyc(txt:string; x,y: integer; color:byte);
-var
-    th: INTEGER;
+procedure print__4(txt:string; x,y: integer; color:byte);
+begin
+  CURRENT_COLOR := color;
+  print__3(txt,x,y);
+end;
+
+procedure print__3(txt:string; x,y: integer); //overload;
 begin
   TextX := x;
   TextY := y;
-  CURRENT_COLOR := color;
-  th := al_get_font_line_height (Font);
-  al_set_blender (ALLEGRO_ADD, ALLEGRO_ONE, ALLEGRO_INVERSE_ALPHA);
-  al_draw_text (Font, COLORS[color], TextX, TextY, 0, txt);
-  TextY := TextY + th;
-  //writeln('mem:',mem[0],', ',mem[1]);
-end;
+  print(txt);
 
-procedure printxy(txt:string; x,y: integer); //overload;
-begin
-  printxyc(txt, x, Y, CURRENT_COLOR)
+  //printxyc(txt, x, Y, CURRENT_COLOR)
 end;
 
 procedure print(txt:string); //overload;
+var
+    th: INTEGER;
 begin
-  printxyc(txt, TextX, TextY, CURRENT_COLOR)
+  //printxyc(txt, TextX, TextY, CURRENT_COLOR)
+  th := al_get_font_line_height (Font);
+  al_set_blender (ALLEGRO_ADD, ALLEGRO_ONE, ALLEGRO_INVERSE_ALPHA);
+  al_draw_text (Font, COLORS[CURRENT_COLOR], TextX, TextY, 0, txt);
+  TextY := TextY + th;
+  //writeln('mem:',mem[0],', ',mem[1]);
 end;
 
 

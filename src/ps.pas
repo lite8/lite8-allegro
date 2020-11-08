@@ -1,8 +1,8 @@
 unit ps;
 (*
- * PascalScript.
- * this unit provide a bridge between user/game script and this pascal program
- * In the end the program only need 3 procedures: _init, _update, _draw.
+ * PascalScript part.
+ * Purpose: providing 3 accessible procedures: _init, _update, _draw from string.
+ * Description: this unit provide a bridge between user/game script and this pascal program
  * author: x2nie @2020-11-06
  *)
 
@@ -33,7 +33,7 @@ type
 implementation
 
 uses
-  uPSUtils,api;
+  uPSUtils,ps_patch, api;
 
 procedure learning_errorcode(s:string);
 const artinya : array[TPSPasToken] of string = (
@@ -160,8 +160,9 @@ begin
   //  Sender.AddFunction(@printxy, 'procedure print(txt:string; x,y: integer); overload;');
   //  Sender.AddFunction(@print, 'procedure print(txt:string); overload;');
 
-   //Sender.AddFunction(@print, 'procedure print(txt:string);');
-   Sender.AddFunction(@printxyc, 'procedure print(txt:string; x,y: integer; color:byte);');
+   Sender.AddFunction(@print, 'procedure print(txt:string);');
+   Sender.AddFunction(@print__3, 'procedure print__3(txt:string; x,y: integer);');
+   Sender.AddFunction(@print__4, 'procedure print__4(txt:string; x,y: integer; color:byte);');
 end;
 
 constructor TPS.Create(s: string);
@@ -181,7 +182,10 @@ function TPS.Init: boolean;
 var i : integer;
   err : TPSPascalCompilerMessage;
   s : string;
+  patched : boolean;
 begin
+  repeat
+  patched := false;
   result := FScr.compile();
   //try
   //  result := FScr.compile()
@@ -203,14 +207,20 @@ begin
         then
         begin
           err := FScr.CompilerMessages[i];
-          writeln('!!', err.Pos,' ', err.Row, ' ', err.Col);
-          s := FSCr.Script[err.row-1];        //row starts from 1
-          writeln(s);                         // original line
-          s := copy(s,1, err.col);            // truncate to only reported error tokens
-          writeln('>[[',s,']]<');
-          learning_errorcode(s);
+          patched := patch(FSCR, err);
+          //writeln('!!', err.Pos,' ', err.Row, ' ', err.Col);
+          //s := FSCr.Script[err.row-1];        //row starts from 1
+          //writeln(s);                         // original line
+          //s := copy(s,1, err.col);            // truncate to only reported error tokens
+          //writeln('>[[',s,']]<');
+          //learning_errorcode(s);
         end;
      end;
+
+  if not patched then
+     break;
+
+  until 1=0;
 end;
 
 function TPS.GetProc(name: string; var proc: TProc): boolean;

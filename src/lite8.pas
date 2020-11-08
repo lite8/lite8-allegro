@@ -237,12 +237,12 @@ StartTimer();
      if assigned(_draw) then
         _draw()
      //else __draw()
-     else printxyc('no _draw()!',16,16,5)
+     else print__4('no _draw()!',16,16,5)
          ;
        //Print ('Bitmap @%2d ^%d', [ Tics, LastTick]);
 //   Print ('Bitmap',0,0);
 //al_unlock_bitmap (Temp);
-Printxyc(al_str_format('(%.1f fps) @%2d ^%d', [fps, Tics, LastTick]), 1, 10, 3);
+Print__4(al_str_format('(%.1f fps) @%2d ^%d', [fps, Tics, LastTick]), 1, 10, 3);
 
     al_set_target_bitmap (Screen);
 //    al_draw_bitmap (Temp, x + 8 + iw, y, 0);
