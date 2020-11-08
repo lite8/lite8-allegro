@@ -183,7 +183,10 @@ var i : integer;
   err : TPSPascalCompilerMessage;
   s : string;
   patched : boolean;
+  last_err_col, last_err_row : integer;
 begin
+  last_err_col := -1;
+  last_err_row := -1;
   repeat
   patched := false;
   result := FScr.compile();
@@ -207,12 +210,21 @@ begin
         then
         begin
           err := FScr.CompilerMessages[i];
-          patched := patch(FSCR, err);
-          //writeln('!!', err.Pos,' ', err.Row, ' ', err.Col);
-          //s := FSCr.Script[err.row-1];        //row starts from 1
+          s := FSCr.Script[err.row-1];        //row starts from 1
           //writeln(s);                         // original line
-          //s := copy(s,1, err.col);            // truncate to only reported error tokens
-          //writeln('>[[',s,']]<');
+          s := copy(s,1, err.col);            // truncate to only reported error tokens
+          writeln('>>>>|',s,'|<<<<');
+          writeln('current xy:',last_err_col,',', last_err_row);
+          writeln('current E-XY:',err.Col,',', err.Row);
+          // don't stupid to check the same complain twice. test it with prior:
+          if not( (err.Row = last_err_row) and (err.Col = last_err_col)) then
+          begin
+            last_err_row:=err.Row;
+            last_err_col:=err.Col;
+            writeln('stored xy:',last_err_col,',', last_err_row);
+            patched := patch(FSCR, err);
+          end;
+          //writeln('!!', err.Pos,' ', err.Row, ' ', err.Col);
           //learning_errorcode(s);
         end;
      end;
