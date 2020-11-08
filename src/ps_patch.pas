@@ -153,13 +153,13 @@ var
 begin
   patched := false;
   invalid := false;
-  writeln('##############################');
-  writeln('!!', complain.Pos,' ', complain.Row, ' ', complain.Col);
+  //writeln('##############################');
+  //writeln('!!', complain.Pos,' ', complain.Row, ' ', complain.Col);
   row := complain.row-1;              //tstringlist|.row starts from 1
   s := ps.Script[row];
   //writeln(s);                         // original line
   s := copy(s,1, complain.col);            // truncate to only reported error tokens
-  writeln('>[[',s,']]<');
+  //writeln('>[[',s,']]<');
 
   //find the procedure name, then patch it
   Parser := TPSPascalParser.Create;
@@ -194,8 +194,12 @@ begin
         CSTI_OpenRound  : inc(stack);
         CSTI_Identifier : if stack = 0 then
                           begin
-                            writeln('========= we found:', token.str);
-                            writeln('========= param count:', params);
+                            //writeln('========= we found:', token.str);
+                            //writeln('========= param count:', params);
+                            for i := row to complain.Row-1 do
+                                writeLn(ps.Script[i]);
+                            for i := 1 to complain.Col-1 do write(' ');
+                            writeLn('^');
                             // test if new name is valid:
                             new_name := format('%s__%d',[token.str, params]);
                             //m := ps.GetProcMethod(new_name);
@@ -209,7 +213,7 @@ begin
                             if not TPSExecHack(ps.Exec).ImportProc(new_name, regproc) then
                             begin
                               invalid := true;
-                              writeLn('invalid proc to patch:',new_name);
+                              writeLn('Failed to patch with new proc name:',new_name);
                               regproc.Free;
                               break;
                             end;
@@ -219,6 +223,12 @@ begin
                             insert(new_name, s, token.col);
                             ps.Script[row] := s;
                             patched := true;
+
+                            // log:
+                            writeLn('>> Patch successful:');
+                            for i := row to complain.Row-1 do
+                                writeLn(ps.Script[i]);
+                            writeLn();
                           end;
         CSTI_Comma      : if stack = -1 then inc(comma);
         else   if (stack = -1 (*inside proc*)) and (params=comma ) then
@@ -226,7 +236,7 @@ begin
                  inc(params)
                end;
       end;
-      writeln('@',token.Col,' "',token.str,'"  [',comma,'/',params ,'] ===> ',artinya[token.id]);
+      //writeln('@',token.Col,' "',token.str,'"  [',comma,'/',params ,'] ===> ',artinya[token.id]);
     end;
 
 

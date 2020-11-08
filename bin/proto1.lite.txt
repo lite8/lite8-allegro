@@ -40,7 +40,7 @@ begin
   print     (  ' hey',8,8);
   //0
   print(
-	'yolayhey'); print('fooh!');
+	'yolayhey',16,16); print('fooh!');
   //a
   print('yeah!',30,64, 11);
   //b

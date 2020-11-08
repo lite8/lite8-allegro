@@ -78,8 +78,8 @@ begin
   COLORS[14] := al_map_rgba( 255, 119, 168, 255 );
   COLORS[15] := al_map_rgba( 255, 204, 170, 255 );
 
-  for c := 0 to 15 do
-  writeln(format('%-2.8f, %-2.2f, %-2.2f, %-2.2f', [colors[c].r, colors[c].g, colors[c].b, colors[c].a]),' ');
+  //for c := 0 to 15 do
+  //    writeln(format('%-2.8f, %-2.2f, %-2.2f, %-2.2f', [colors[c].r, colors[c].g, colors[c].b, colors[c].a]),' ');
 
   //demo
   sprite1();
@@ -87,7 +87,7 @@ begin
 end;
 
 initialization
-  reset_();
+  //reset_();
 
 
 end.

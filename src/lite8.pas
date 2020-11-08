@@ -352,11 +352,11 @@ VAR
   script : string;
   pas : TPS;
 BEGIN
-  Writeln('halo bah');
-  Writeln(ErrOutput, 'halo bah2');
+  //Writeln('halo bah');
+  //Writeln(ErrOutput, 'halo bah2');
   script := load( 'proto1.lite.txt');
   writeln('---------');
-  write(script);
+  writeln(script);
 
 
   IF NOT al_init THEN  WriteLn (ErrOutput, 'Could not init Allegro.');
