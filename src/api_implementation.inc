@@ -86,7 +86,7 @@ begin
 end;
 
 
-procedure spr(n,x,y: byte);  // n = 16
+procedure spr_old_working_imp(n,x,y: byte);  // n = 16
 var e,j,xs,ys,c : byte;
     AC: single;
 begin
@@ -104,7 +104,14 @@ begin
     //writeln;
   end;
   //writeln;
+end;
 
+procedure spr(n,x,y: byte);  // n = 16
+var xs,ys : byte;
+begin
+  xs := n mod 16;
+  ys := n div 16;
+  al_draw_bitmap_region(SpritesheetBmp, xs*8, ys*8, 8,8, x,y, 0);
 end;
 
 procedure cls();
@@ -118,7 +125,7 @@ begin
   cls()
 end;
 
-function time();
+function time():double;
 begin
   result := Time_;
 end;

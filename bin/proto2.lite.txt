@@ -32,20 +32,20 @@ end;
 procedure _draw();
 begin
   cls(1);
-//   color(7);
+  color(7);
   //al_put_pixel (x, y, Red);
   pset(x,y,9); 
-  print('halo');
+//   print('halo');
   { print('world',30,8); }
   //-1
-  print     (  ' hey',8,8);
+//   print     (  ' hey',8,8);
   //0
-  print(
-	'yolayhey',16,16); print('fooh!');
+//   print(
+	// 'yolayhey',16,16); print('fooh!');
   //a
   print('yeah!',30,64, 11);
   //b
-  print('halo');
+//   print('halo');
   //c
   spr(0, x,y);
 end; 

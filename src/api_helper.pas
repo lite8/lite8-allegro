@@ -22,6 +22,7 @@ var
    TextY : byte absolute mem[$5f27];
    CURRENT_COLOR: byte absolute mem[$5f25];
 
+   SpritesheetBmp: ALLEGRO_BITMAPptr;
    Time_ : double;
 
 // RELATED TO ALLEGRO =====================
