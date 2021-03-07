@@ -1,4 +1,4 @@
-USES
+uses
   SysUtils {format string},
   Allegro5, al5base, api_helper,al5font;
 
@@ -75,7 +75,7 @@ end;
 
 procedure print(txt:string); //overload;
 var
-    th: INTEGER;
+    th: integer;
 begin
   //printxyc(txt, TextX, TextY, CURRENT_COLOR)
   th := al_get_font_line_height (Font);

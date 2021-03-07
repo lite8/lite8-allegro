@@ -15,7 +15,7 @@ uses
 
 {.$X+}
 
-// RELATED TO PICO8 =====================
+// RELATED to PICO8 =====================
 var
    Mem: array [0 .. 1024*32 - 1] of Byte;
    TextX : byte absolute mem[$5f26];
@@ -25,7 +25,7 @@ var
    SpritesheetBmp: ALLEGRO_BITMAPptr;
    Time_ : double;
 
-// RELATED TO ALLEGRO =====================
+// RELATED to ALLEGRO =====================
 var
   COLORS: array[0..15] of ALLEGRO_COLOR;
   CURRENT_KBDSTATE : ALLEGRO_KEYBOARD_STATE;    //this frame only
