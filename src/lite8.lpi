@@ -39,10 +39,11 @@
       <Unit0>
         <Filename Value="lite8.pas"/>
         <IsPartOfProject Value="True"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="5"/>
-        <TopLine Value="82"/>
-        <CursorPos X="60" Y="101"/>
-        <UsageCount Value="101"/>
+        <TopLine Value="123"/>
+        <CursorPos X="91" Y="123"/>
+        <UsageCount Value="102"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit0>
@@ -102,7 +103,7 @@
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="6"/>
         <CursorPos X="60" Y="52"/>
-        <UsageCount Value="96"/>
+        <UsageCount Value="97"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit7>
@@ -131,7 +132,7 @@
         <Filename Value="api.pas"/>
         <IsPartOfProject Value="True"/>
         <CursorPos X="15" Y="11"/>
-        <UsageCount Value="93"/>
+        <UsageCount Value="94"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit11>
@@ -148,10 +149,9 @@
       <Unit13>
         <Filename Value="api_implementation.inc"/>
         <IsPartOfProject Value="True"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
-        <CursorPos X="5"/>
-        <UsageCount Value="93"/>
+        <CursorPos X="65" Y="20"/>
+        <UsageCount Value="94"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit13>
@@ -160,7 +160,7 @@
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="3"/>
         <CursorPos X="18" Y="25"/>
-        <UsageCount Value="91"/>
+        <UsageCount Value="92"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit14>
@@ -182,7 +182,7 @@
         <EditorIndex Value="7"/>
         <TopLine Value="91"/>
         <CursorPos X="53" Y="50"/>
-        <UsageCount Value="49"/>
+        <UsageCount Value="50"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit17>
@@ -251,9 +251,9 @@
         <Filename Value="ps_patch.pas"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="8"/>
-        <TopLine Value="158"/>
+        <TopLine Value="130"/>
         <CursorPos X="49" Y="31"/>
-        <UsageCount Value="37"/>
+        <UsageCount Value="38"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit27>

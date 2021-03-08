@@ -11,29 +11,29 @@ unit ps;
 interface
 
 uses
-  Classes, SysUtils, uPSComponent,uPSCompiler;
+   Classes, SysUtils, uPSComponent,uPSCompiler;
 
 type
 
   { TPS }
 
-  TProc = procedure of object;                //https://gist.github.com/ik5/2950789
+   TProc = procedure of object;                //https://gist.github.com/ik5/2950789
 
-  TPS = class
-    protected
-      FScr : TPSScript;
-      procedure OnCompile(Sender: TPSScript);
-    public
-      constructor Create(s:string);
-      destructor Destroy; override;
-      function Init: boolean;
-      function GetProc(name:string; var proc:TProc): boolean;
-  end;
+   TPS = class
+      protected
+         FScr : TPSScript;
+         procedure OnCompile(Sender: TPSScript);
+      public
+         constructor Create(s:string);
+         destructor Destroy; override;
+         function Init: boolean;
+         function GetProc(name:string; var proc:TProc): boolean;
+   end;
 
 implementation
 
 uses
-  uPSUtils,ps_patch, api;
+   uPSUtils,ps_patch, api;
 
 { TPS }
 
@@ -57,80 +57,80 @@ end;
 
 constructor TPS.Create(s: string);
 begin
-  FScr:= TPSScript.Create(nil);
-  FScr.Script.Text:= s;
-  FScr.OnCompile:= OnCompile;
+   FScr:= TPSScript.Create(nil);
+   FScr.Script.Text:= s;
+   FScr.OnCompile:= OnCompile;
 end;
 
 destructor TPS.Destroy;
 begin
-  FScr.Free;
-  inherited Destroy;
+   FScr.Free;
+   inherited Destroy;
 end;
 
 function TPS.Init: boolean;
 var i : integer;
-  err : TPSPascalCompilerMessage;
-  s : string;
-  patched : boolean;
-  last_err_col, last_err_row : integer;
+   err : TPSPascalCompilerMessage;
+   s : string;
+   patched : boolean;
+   last_err_col, last_err_row : integer;
 begin
-  last_err_col := -1;
-  last_err_row := -1;
-  repeat
-  patched := false;
-  result := FScr.compile();
-  //try
-  //  result := FScr.compile()
-  //except
-  //  //on E : EMyLittleException do writeln(E.Message);
-  //  on E : TPSPascalCompilerError do
-  //         //writeln('This is not my exception!');
-  //         begin
-  //
-  //         end
-  //  else raise;      //writeln('This is not an Exception-descendant at all!');
-  //end;
-  if FScr.CompilerMessageCount > 0 then
-     for i:= 0 to FScr.CompilerMessageCount-1 do
-     begin
-        Writeln('>>' +FScr.CompilerErrorToStr(i));
-        if (FScr.CompilerMessages[i] is TPSPascalCompilerError)
-        and (TPSPascalCompilerError(FScr.CompilerMessages[i]).Error = ecInvalidnumberOfParameters)
-        then
-        begin
-          err := FScr.CompilerMessages[i];
-          s := FSCr.Script[err.row-1];        //row starts from 1
-          //writeln(s);                         // original line
-          //s := copy(s,1, err.col);            // truncate to only reported error tokens
-          //writeln('>>>>|',s,'|<<<<');
-          //writeln('current xy:',last_err_col,',', last_err_row);
-          //writeln('current E-XY:',err.Col,',', err.Row);
-          // don't stupid to check the same complain twice. test it with prior:
-          if not( (err.Row = last_err_row) and (err.Col = last_err_col)) then
-          begin
-            last_err_row:=err.Row;
-            last_err_col:=err.Col;
-            //writeln('stored xy:',last_err_col,',', last_err_row);
-            patched := patch(FSCR, err);
-          end;
-          //writeln('!!', err.Pos,' ', err.Row, ' ', err.Col);
-          //learning_errorcode(s);
-        end;
-     end;
+   last_err_col := -1;
+   last_err_row := -1;
+   repeat
+   patched := false;
+   result := FScr.compile();
+   //try
+   //  result := FScr.compile()
+   //except
+   //  //on E : EMyLittleException do writeln(E.Message);
+   //  on E : TPSPascalCompilerError do
+   //         //writeln('This is not my exception!');
+   //         begin
+   //
+   //         end
+   //  else raise;      //writeln('This is not an Exception-descendant at all!');
+   //end;
+   if FScr.CompilerMessageCount > 0 then
+      for i:= 0 to FScr.CompilerMessageCount-1 do
+      begin
+         Writeln('>>' +FScr.CompilerErrorToStr(i));
+         if (FScr.CompilerMessages[i] is TPSPascalCompilerError)
+         and (TPSPascalCompilerError(FScr.CompilerMessages[i]).Error = ecInvalidnumberOfParameters)
+         then
+         begin
+            err := FScr.CompilerMessages[i];
+            s := FSCr.Script[err.row-1];        //row starts from 1
+            //writeln(s);                         // original line
+            //s := copy(s,1, err.col);            // truncate to only reported error tokens
+            //writeln('>>>>|',s,'|<<<<');
+            //writeln('current xy:',last_err_col,',', last_err_row);
+            //writeln('current E-XY:',err.Col,',', err.Row);
+            // don't stupid to check the same complain twice. test it with prior:
+            if not( (err.Row = last_err_row) and (err.Col = last_err_col)) then
+            begin
+               last_err_row:=err.Row;
+               last_err_col:=err.Col;
+               //writeln('stored xy:',last_err_col,',', last_err_row);
+               patched := patch(FSCR, err);
+            end;
+            //writeln('!!', err.Pos,' ', err.Row, ' ', err.Col);
+            //learning_errorcode(s);
+         end;
+      end;
 
-  if not patched then
-     break;
+   if not patched then
+      break;
 
-  until 1=0;
+   until 1=0;
 end;
 
 function TPS.GetProc(name: string; var proc: TProc): boolean;
 var m : TMethod;
 begin
-  m := FScr.GetProcMethod(name);
-  proc        := TProc(m);
-  Result      := Assigned(proc);
+   m := FScr.GetProcMethod(name);
+   proc        := TProc(m);
+   Result      := Assigned(proc);
 end;
 
 

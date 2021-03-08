@@ -51,9 +51,9 @@ var
   //Font: ALLEGRO_FONTptr;
   EventQueue: ALLEGRO_EVENT_QUEUEptr;
   Background, TextClr, Black, Red: ALLEGRO_COLOR;
-  Timer, Counter: DOUBLE;
+  Timer, Counter: double;
   Tics,LastTick : longint;
-  //TextX, TextY: SINGLE;
+  //TextX, TextY: single;
   TheTimer1s: ALLEGRO_TIMERptr;
 
   _init, _update, _draw : TProc;
@@ -102,7 +102,7 @@ var
 function BuildSpritesheetBitmap (const w, h: integer): ALLEGRO_BITMAPptr;
 var
    x,y: integer;
-   mx, my, a, d, sat, hue: SINGLE;
+   mx, my, a, d, sat, hue: single;
    State: ALLEGRO_STATE;
    //Lock: ALLEGRO_LOCKED_REGIONptr;
    tempBmp: ALLEGRO_BITMAPptr;
@@ -138,7 +138,7 @@ end;
 
 
 
-  //procedure SetXY (const x, y: SINGLE);
+  //procedure SetXY (const x, y: single);
   //begin
   //  TextX := x;
   //  TextY := y;
@@ -146,7 +146,7 @@ end;
 
 
 
-  //procedure GetXY (OUT x, y: SINGLE);
+  //procedure GetXY (OUT x, y: single);
   //begin
   //  x := TextX;
   //  y := TextY;
@@ -154,7 +154,7 @@ end;
 
 
 
-  //procedure Print (const Fmt: AL_STR; const Args: array OF const);
+  //procedure Print (const Fmt: AL_STR; const Args: array of const);
   //var
   //  th: integer;
   //begin
@@ -181,9 +181,9 @@ end;
 
 
 
-function GetFPS  (): SINGLE;
+function GetFPS  (): single;
 begin
-   if Timer = 0 then EXIT (0.0);
+   if Timer = 0 then exit (0.0);
    GetFPS := Counter / Timer;
 end;
 
@@ -197,7 +197,7 @@ end;
 
 procedure Draw;
 var
-   x, y,fps: SINGLE;
+   x, y,fps: single;
    iw, ih {, FormatLock }: integer;
    Screen, Temp: ALLEGRO_BITMAPptr;
    {  Lock: ALLEGRO_LOCKED_REGIONptr;
@@ -287,39 +287,45 @@ var
 begin
    NeedDraw := TRUE;
 
-   REPEAT
-   if NeedDraw AND al_is_event_queue_empty (EventQueue) then
-   begin
-      Tick;
-      NeedDraw := FALSE;
-   end;
-   al_wait_for_event (EventQueue, @Event);
-   CASE Event.ftype OF
-      ALLEGRO_EVENT_DISPLAY_CLOSE:
-         EXIT;
-      ALLEGRO_EVENT_KEY_DOWN:
-         begin
-         if Event.keyboard.keycode = ALLEGRO_KEY_ESCAPE then
-            EXIT;
-         //KEYS_DOWN[Event.keyboard.keycode] := true;
-
-         end;
-      //ALLEGRO_EVENT_KEY_UP:
-         //begin
-         //KEYS_DOWN[Event.keyboard.keycode] := False;
-         //end;
-      ALLEGRO_EVENT_TIMER:
+   repeat
+      if NeedDraw and al_is_event_queue_empty(EventQueue) then
       begin
-         if Event.timer.source = TheTimer1s then
-         begin
-         LastTick := Tics;
-         Tics := 0;
-         end
-         else
-            NeedDraw := TRUE;
+         Tick;
+         NeedDraw := FALSE;
       end;
-   end;
-   //_update()
+
+      al_wait_for_event(EventQueue, @Event);
+
+      case Event.ftype of
+
+         ALLEGRO_EVENT_DISPLAY_CLOSE:
+            exit;
+
+         ALLEGRO_EVENT_KEY_DOWN:
+            begin
+               if Event.keyboard.keycode = ALLEGRO_KEY_ESCAPE then
+                  exit;
+               // KEYS_DOWN[Event.keyboard.keycode] := true;
+
+            end;
+
+         // ALLEGRO_EVENT_KEY_UP:
+            // begin
+               // KEYS_DOWN[Event.keyboard.keycode] := False;
+            // end;
+
+         ALLEGRO_EVENT_TIMER:
+            begin
+               if Event.timer.source = TheTimer1s then
+               begin
+                  LastTick := Tics;
+                  Tics := 0;
+               end
+               else
+                  NeedDraw := TRUE;
+            end;
+      end;
+      //_update()
    UNTIL FALSE;
 end;
 
@@ -327,7 +333,7 @@ end;
 
 procedure Init;
 var
-   Ranges: array [0..1] OF longint = (32,126);
+   Ranges: array [0..1] of longint = (32,126);
 begin
    //Font := al_load_font ('data/fixed_font.tga', 0, 0);
    //if Font = NIL then
